@@ -1,4 +1,47 @@
 <html>
+    <head>
+        <script>
+            $(document).ready(function(){
+                $.fn.table=function(){
+                    $.ajax({
+                            method: "GET",
+                            url: "http://192.168.1.8:3000/electricidade"
+                        })
+                        .done(function( msg ) {                                                        
+                            $('#example').DataTable( {
+                                data: msg,
+                                columns: [
+                                    { data: 'data' },
+                                    { data: 'ponta' },
+                                    { data: 'cheias' },
+                                    { data: 'vazio' },
+                                    { data: 'consumoponta' },
+                                    { data: 'consumocheias' },
+                                    { data: 'consumovazio' }
+                                ]
+                            } );                                                                                               
+                        });
+                }
+                $("#validation")[0].innerHTML = '';
+                $("#submitElectricidade").click(function(){
+                    if($("#dataContagem").val() === '' || $("#ponta").val() === '' || 
+                        $("#vazio").val() === '' || $("#cheia").val() === ''){                        
+                        $("#validation")[0].innerHTML = '<div>Erro ao gravar dados!!</div>';
+                    }else{
+                        $.ajax({
+                            method: "POST",
+                            url: "http://192.168.1.8:3000/electricidade",                                                      
+                            data: {"data":$("#dataContagem").val().replaceAll('-',''),"ponta":$("#ponta").val(),"cheias":$("#cheia").val(),"vazio":$("#vazio").val()},
+                            dataType: 'json'
+                        })
+                        .done(function( msg ) {
+                            $.fn.table();
+                        });                                                
+                    }
+                });
+            });
+        </script>
+    </head>
     <body>
         <table>
             <tr>
@@ -7,28 +50,36 @@
                </td> 
             </tr>
             <tr>
-                <td><label for="dataContagem">Dia</label></td>
-                <td><input type="date" name="dataContagem" required/></td>
+                <td>
+                    <label for="dataContagem" class="form-label">Dia</label>
+                    <input type="date" name="dataContagem" id="dataContagem" required class="form-control"/>
+                </td>
             </tr>
             <tr>
-                <td><label for="ponta">Ponta</label></td>
-                <td><input type="number" name="ponta" required/></td>
+                <td>
+                    <label for="ponta" class="form-label">Ponta</label>
+                    <input type="number" name="ponta"  id="ponta" required class="form-control"/>
+                </td>
             </tr>
             <tr>
-                <td><label for="vazio">Vazio</label></td>
-                <td><input type="number" name="vazio" required/></td>
+                <td>
+                    <label for="vazio" class="form-label">Vazio</label>
+                    <input type="number" name="vazio"  id="vazio" required class="form-control"/>
+                </td>
             </tr>
             <tr>
-                <td><label for="cheias">Cheias</label></td>
-                <td><input type="number" name="cheias" required/></td>
+                <td>
+                    <label for="cheia" class="form-label">Cheia</label>
+                    <input type="number" name="cheia"  id="cheia" required class="form-control"/>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" id="validation"></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="button" id="submitElectricidade" value="Gravar"/>
-                    <input type="button" onclick="window.location.href='./Contadores.html'" value="Anular"/>
+                    <button type="button" id="submitElectricidade" class="btn btn-success">Gravar</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='./Contadores.html'">Anular</button>                    
                 </td>
             </tr>
         </table>

@@ -5,29 +5,28 @@
                 $.fn.table=function(){
                     $.ajax({
                             method: "GET",
-                            url: "https://jsonplaceholder.typicode.com/posts"
+                            url: "http://192.168.1.8:3000/agua"
                         })
                         .done(function( msg ) {                                                        
                             $('#example').DataTable( {
                                 data: msg,
                                 columns: [
-                                    { data: 'id' },
-                                    { data: 'userId' },
-                                    { data: 'body' },
-                                    { data: 'title' }
+                                    { data: 'data' },
+                                    { data: 'valor' },
+                                    { data: 'consumo' }                                    
                                 ]
                             } );                                                                                               
                         });
                 }
                 $("#validation")[0].innerHTML = '';
                 $("#submitAgua").click(function(){
-                    if($("#dataContagem").val() === '' || $("#Contagem").val() === ''){
-                        $("#validation")[0].innerHTML = 'Erro ao gravar dados!!';
+                    if($("#dataContagem").val() === '' || $("#Contagem").val() === ''){                        
+                        $("#validation")[0].innerHTML = '<div>Erro ao gravar dados!!</div>';
                     }else{
                         $.ajax({
                             method: "POST",
-                            url: "https://dummy.restapiexample.com/api/v1/create",                                                      
-                            data: {"name":$("#dataContagem").val(),"salary":$("#dataContagem").val(),"age": $("#Contagem").val()},
+                            url: "http://192.168.1.8:3000/agua",                                                      
+                            data: {"data":$("#dataContagem").val().replaceAll('-',''),"valor":$("#dataContagem").val()},
                             dataType: 'json'
                         })
                         .done(function( msg ) {
@@ -46,20 +45,24 @@
                </td> 
             </tr>
             <tr>
-                <td><label for="dataContagem">Dia</label></td>
-                <td><input type="date" name="dataContagem" id="dataContagem" required/></td>
+                <td>
+                    <label for="dataContagem" class="form-label">Dia</label>
+                    <input type="date" name="dataContagem" id="dataContagem" required class="form-control"/>
+                </td>
             </tr>
             <tr>
-                <td><label for="Contagem">Contagem</label></td>
-                <td><input type="number" name="Contagem" id="Contagem" required/></td>
+                <td>
+                    <label for="Contagem" class="form-label">Contagem</label>
+                    <input type="number" name="Contagem" id="Contagem" required class="form-control"/>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" id="validation"></td>
             </tr>            
             <tr>
                 <td colspan="2">
-                    <input type="button" id="submitAgua" value="Gravar"/>
-                    <input type="button" onclick="window.location.href='./Contadores.html'" value="Anular"/>                                     
+                    <button type="button" id="submitAgua" class="btn btn-success">Gravar</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='./Contadores.html'">Anular</button>                                                     
                 </td>
             </tr>
             <tr>
