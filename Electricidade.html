@@ -1,0 +1,36 @@
+<html>
+    <body>
+        <table>
+            <tr>
+               <td colspan="2" style="text-align: center;">
+                    Electricidade
+               </td> 
+            </tr>
+            <tr>
+                <td><label for="dataContagem">Dia</label></td>
+                <td><input type="date" name="dataContagem" required/></td>
+            </tr>
+            <tr>
+                <td><label for="ponta">Ponta</label></td>
+                <td><input type="number" name="ponta" required/></td>
+            </tr>
+            <tr>
+                <td><label for="vazio">Vazio</label></td>
+                <td><input type="number" name="vazio" required/></td>
+            </tr>
+            <tr>
+                <td><label for="cheias">Cheias</label></td>
+                <td><input type="number" name="cheias" required/></td>
+            </tr>
+            <tr>
+                <td colspan="2" id="validation"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="submitElectricidade" value="Gravar"/>
+                    <input type="button" onclick="window.location.href='./Contadores.html'" value="Anular"/>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

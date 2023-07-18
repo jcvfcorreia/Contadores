@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <script>
+            $(document).ready(function(){
+                $.fn.table=function(){
+                    $.ajax({
+                            method: "GET",
+                            url: "https://jsonplaceholder.typicode.com/posts"
+                        })
+                        .done(function( msg ) {                                                        
+                            $('#example').DataTable( {
+                                data: msg,
+                                columns: [
+                                    { data: 'id' },
+                                    { data: 'userId' },
+                                    { data: 'body' },
+                                    { data: 'title' }
+                                ]
+                            } );                                                                                               
+                        });
+                }
+                $("#validation")[0].innerHTML = '';
+                $("#submitAgua").click(function(){
+                    if($("#dataContagem").val() === '' || $("#Contagem").val() === ''){
+                        $("#validation")[0].innerHTML = 'Erro ao gravar dados!!';
+                    }else{
+                        $.ajax({
+                            method: "POST",
+                            url: "https://dummy.restapiexample.com/api/v1/create",                                                      
+                            data: {"name":$("#dataContagem").val(),"salary":$("#dataContagem").val(),"age": $("#Contagem").val()},
+                            dataType: 'json'
+                        })
+                        .done(function( msg ) {
+                            $.fn.table();
+                        });                                                
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>        
+        <table>
+            <tr>
+               <td colspan="2" style="text-align: center;">
+                    Água
+               </td> 
+            </tr>
+            <tr>
+                <td><label for="dataContagem">Dia</label></td>
+                <td><input type="date" name="dataContagem" id="dataContagem" required/></td>
+            </tr>
+            <tr>
+                <td><label for="Contagem">Contagem</label></td>
+                <td><input type="number" name="Contagem" id="Contagem" required/></td>
+            </tr>
+            <tr>
+                <td colspan="2" id="validation"></td>
+            </tr>            
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="submitAgua" value="Gravar"/>
+                    <input type="button" onclick="window.location.href='./Contadores.html'" value="Anular"/>                                     
+                </td>
+            </tr>
+            <tr>
+            <td>
+                <br>
+            </td>                
+            </tr>
+            <tr>
+                <table id="example"  class="display">
+
+                </table>
+            </tr>
+        </table>        
+    </body>
+</html>
