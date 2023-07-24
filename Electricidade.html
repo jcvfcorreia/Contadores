@@ -1,48 +1,8 @@
 <html>
     <head>
-        <script>
-            $(document).ready(function(){
-                $.fn.table=function(){
-                    $.ajax({
-                            method: "GET",
-                            url: "http://192.168.1.8:3000/electricidade"
-                        })
-                        .done(function( msg ) {                                                        
-                            $('#example').DataTable( {
-                                data: msg,
-                                columns: [
-                                    { data: 'data' },
-                                    { data: 'ponta' },
-                                    { data: 'cheias' },
-                                    { data: 'vazio' },
-                                    { data: 'consumoponta' },
-                                    { data: 'consumocheias' },
-                                    { data: 'consumovazio' }
-                                ]
-                            } );                                                                                               
-                        });
-                }
-                $("#validation")[0].innerHTML = '';
-                $("#submitElectricidade").click(function(){
-                    if($("#dataContagem").val() === '' || $("#ponta").val() === '' || 
-                        $("#vazio").val() === '' || $("#cheia").val() === ''){                        
-                        $("#validation")[0].innerHTML = '<div>Erro ao gravar dados!!</div>';
-                    }else{
-                        $.ajax({
-                            method: "POST",
-                            url: "http://192.168.1.8:3000/electricidade",                                                      
-                            data: {"data":$("#dataContagem").val().replaceAll('-',''),"ponta":$("#ponta").val(),"cheias":$("#cheia").val(),"vazio":$("#vazio").val()},
-                            dataType: 'json'
-                        })
-                        .done(function( msg ) {
-                            $.fn.table();
-                        });                                                
-                    }
-                });
-            });
-        </script>
+        <script src="js/Electricidade.js"></script>        
     </head>
-    <body>
+    <body>        
         <table>
             <tr>
                <td colspan="2" style="text-align: center;">
@@ -54,17 +14,17 @@
                     <label for="dataContagem" class="form-label">Dia</label>
                     <input type="date" name="dataContagem" id="dataContagem" required class="form-control"/>
                 </td>
+            </tr>            
+            <tr>
+                <td>
+                    <label for="vazio" class="form-label">Vazio</label>
+                    <input type="number" name="vazio"  id="vazio" required class="form-control"/>
+                </td>
             </tr>
             <tr>
                 <td>
                     <label for="ponta" class="form-label">Ponta</label>
                     <input type="number" name="ponta"  id="ponta" required class="form-control"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="vazio" class="form-label">Vazio</label>
-                    <input type="number" name="vazio"  id="vazio" required class="form-control"/>
                 </td>
             </tr>
             <tr>
@@ -79,9 +39,16 @@
             <tr>
                 <td colspan="2">
                     <button type="button" id="submitElectricidade" class="btn btn-success">Gravar</button>
-                    <button type="button" class="btn btn-danger" onclick="window.location.href='./Contadores.html'">Anular</button>                    
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='./index.html'">Inicio</button>                    
                 </td>
-            </tr>
+            </tr>            
         </table>
+        <div id="toastElectricidade" class="toast align-items-center bg-success-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">                
+              </div>
+              <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
     </body>
 </html>
