@@ -8,7 +8,7 @@ $(document).ready(function(){
         url: "http://192.168.1.249/electricidade"        
     })
     .done(function( msg ) {
-        $("#dataContagem").val($.fn.formatDate(msg[0].DATA));
+        $("#dataContagem").val($.fn.formatDate((new Date()).toISOString().replaceAll('-','').split('T')[0]));
         $("#ponta").val(msg[0].PONTA);
         $("#cheia").val(msg[0].CHEIAS);
         $("#vazio").val(msg[0].VAZIO);
