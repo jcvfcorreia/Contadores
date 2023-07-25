@@ -8,7 +8,7 @@ $(document).ready(function(){
         url: "http://192.168.1.249/agua"        
     })
     .done(function( msg ) {
-        $("#dataContagem").val($.fn.formatDate(msg[0].DATA));
+        $("#dataContagem").val($.fn.formatDate((new Date()).toISOString().replaceAll('-','').split('T')[0]));
         $("#Contagem").val(msg[0].VALOR);
     }); 
 
